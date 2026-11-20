@@ -1,6 +1,6 @@
 // Ajuste aqui a URL da sua API e os caminhos. Tudo no site usa só este arquivo.
 window.ETERNA={
-  API_BASE:"https://eternamax-rising.vercel.app/", // <- troque pela URL real da API
+  API_BASE:"https://vercel.com/damasiolopesrennan2-7245s-projects/eternamax-rising/FnF6NoeKXiDoJ44AiMy59wYh4cCo", // <- troque pela URL real da API
   PATHS:{
     me:"/auth/me", login:"/auth/discord", logout:"/auth/logout",
     stats:"/stats", tournaments:"/tournaments", register:id=>`/tournaments/${id}/register`,

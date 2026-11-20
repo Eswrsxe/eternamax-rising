@@ -35,12 +35,12 @@ def page(path,title,body,pg="static",desc="",active=None,extra_nav=""):
     active=active or path
     nav="".join(f'<li><a href="{h}" {"aria-current=page" if h==active else ""}>{ic(i)} {t}</a></li>' for h,i,t in NAV)
     html=f'''<!DOCTYPE html><html lang="pt-BR"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<title>{title} | Eternamax Rising</title><meta name="description" content="{desc or 'Servidor competitivo de Pokémon: torneios, votações, Minecraft e comunidade.'}"><meta name="theme-color" content="#06030d">
+<title>{title} | Eternamax Rising</title><meta name="description" content="{desc or 'Servidor competitivo de Pokémon: torneios, votações, Minecraft e comunidade.'}"><meta name="theme-color" content="#06030d"><link rel="icon" type="image/png" href="/img/icon.png"><link rel="apple-touch-icon" href="/img/icon.png">
 <style>html,body{{background:#06030d;color-scheme:dark}}</style>
 <link rel="stylesheet" href="/assets/style.css">
 <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap" onload="this.onload=null;this.rel='stylesheet'"><noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"></noscript></head>
 <body data-page="{pg}">{SPRITE}<div class="aurora"><i></i><i></i><i></i></div>
-<header><a class="brand" href="/">{ic("logo")}Eternamax <span>Rising</span></a>
+<header><a class="brand" href="/"><img class="logo" src="/img/icon.png" alt="" width="46" height="38">Eternamax <span>Rising</span></a>
 <nav><ul id="menu">{nav}</ul></nav><div class="hd-right"><div id="auth"></div><button class="burger" id="burger" aria-label="Menu" aria-expanded="false">{ic("menu")}</button></div></header>
 <main>{body}</main><footer>© 2026 Eternamax Rising. Todos os direitos reservados.</footer>
 <script src="/assets/config.js"></script><script src="/assets/app.js" defer></script></body></html>'''
@@ -87,5 +87,5 @@ page("/minecraft","Servidor de Minecraft",head('Servidor de <span class="grad">M
 # WIKI
 page("/minecraft/wiki","Wiki do Minecraft",head('Wiki do <span class="grad">Minecraft</span>',"Caixas de recompensa, passe e calendário diário.")+f'''<div class="tabs" role="tablist"><button class="tab" role="tab" data-tab="caixas">{ic("box")} Caixas</button><button class="tab" role="tab" data-tab="passe-free">{ic("ticket")} Passe Free</button><button class="tab" role="tab" data-tab="passe-premium">{ic("crown")} Passe Premium</button><button class="tab" role="tab" data-tab="calendario">{ic("cal")} Calendário</button></div>
 <label style="display:flex;gap:.6rem;align-items:center;justify-content:center;margin-bottom:1.5rem"><input type="checkbox" id="ids" style="width:auto"> Mostrar IDs técnicos dos itens</label><div id="root"></div>''',"wiki",active="/recursos")
-open("vercel.json","w").write('{"cleanUrls":true,"trailingSlash":false,"headers":[{"source":"/assets/(.*)","headers":[{"key":"Cache-Control","value":"public, max-age=86400"}]},{"source":"/img/(.*)","headers":[{"key":"Cache-Control","value":"public, max-age=86400"}]}]}')
+# vercel.json é mantido manualmente (tem o rewrite de /api); o build não mexe nele.
 open("404.html","w",encoding="utf-8").write('<meta http-equiv="refresh" content="0;url=/"><title>Página não encontrada</title>')

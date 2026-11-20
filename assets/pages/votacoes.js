@@ -1,0 +1,10 @@
+(()=>{const{api,C,esc,ic,toast,fx,state,skel,fmt,$,$$,auth}=E,L=$("#list");
+function card(p){const tot=p.options.reduce((s,o)=>s+(o.votes||0),0),done=p.voted!=null||p.closed||(p.endsAt&&new Date(p.endsAt)<new Date());
+ return`<article class="card poll rv">${p.image?`<img class="banner" loading="lazy" alt="" src="${esc(p.image)}">`:""}<h3 style="margin-top:0">${esc(p.question)}</h3><div style="margin-top:1rem">${p.options.map((o,i)=>{const pc=tot?Math.round((o.votes||0)/tot*100):0;return`<button class="opt ${p.voted===i?"mine":""}" data-p="${esc(p.id)}" data-o="${i}" ${done?"disabled":""}>${done?`<i style="width:${pc}%"></i>`:""}<span>${esc(o.text||o)}</span>${done?`<span>${pc}%</span>`:""}</button>`}).join("")}</div><div class="foot"><span>${tot} voto${tot===1?"":"s"}</span><span>${p.endsAt?(done?"Encerrada":"Até "+fmt(p.endsAt)):""}</span></div></article>`}
+async function load(){L.innerHTML=skel(3);try{const d=await api(C.PATHS.polls),a=Array.isArray(d)?d:d.polls||[];L.innerHTML=a.length?a.map(card).join(""):state("Nenhuma votação ativa agora.");fx(L)}catch(e){L.innerHTML=state(esc(e.message),1)}}
+L.addEventListener("click",async e=>{if(e.target.closest("[data-retry]"))return load();const b=e.target.closest("[data-o]");if(!b)return;if(!auth.user)return toast("Entre com o Discord para votar.",1);
+ try{await api(C.PATHS.vote(b.dataset.p),{method:"POST",body:{option:+b.dataset.o}});toast("Voto registrado!");load()}catch(x){toast(x.message,1)}});
+$("#addo")?.addEventListener("click",()=>{const n=$$(".po").length+1;$("#os").insertAdjacentHTML("beforeend",`<div class="row-in"><input class="po" placeholder="Opção ${n}" required></div>`)});
+$("#pf")?.addEventListener("submit",async e=>{e.preventDefault();const f=new FormData();f.append("question",$("#q").value.trim());$$(".po").forEach(i=>f.append("options[]",i.value.trim()));f.append("hours",$("#dur").value);const im=$("#img").files[0];if(im)f.append("image",im);
+ try{await api(C.PATHS.polls,{method:"POST",body:f});toast("Votação publicada!");e.target.reset();load()}catch(x){toast(x.message,1)}});
+document.addEventListener("auth",load);auth.ready.then(load);})();

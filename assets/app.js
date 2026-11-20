@@ -1,5 +1,7 @@
 (()=>{
 const C=window.ETERNA,$=(s,r=document)=>r.querySelector(s),$$=(s,r=document)=>[...r.querySelectorAll(s)];
+// Evita cópia acidental do conteúdo visual; campos editáveis continuam copiáveis.
+document.addEventListener("copy",e=>{if(!e.target.closest("input,textarea,[contenteditable='true'],[contenteditable='']"))e.preventDefault()});
 const esc=s=>String(s??"").replace(/[&<>"']/g,c=>({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
 const ic=n=>`<svg class="ic"><use href="#i-${n}"/></svg>`;
 function toast(m,err){let b=$("#toasts");if(!b){b=document.createElement("div");b.id="toasts";document.body.append(b)}const t=document.createElement("div");t.className="toast"+(err?" err":"");t.textContent=m;b.append(t);setTimeout(()=>t.remove(),4200)}
